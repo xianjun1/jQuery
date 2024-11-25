@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>用户登录注册页</title>
+  <style>
+  body {
+    
+    background: linear-gradient(to bottom, #63686a, #1d1dda);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
+</style>
+</head>
+
+<body>
+
+  <h2>用户登录注册</h2>
+
+  <div class="container">
+    <h2 text-align="center">登录/注册</h2>
+   <form id="loginForm"><br>
+   <label for="loginUsername">用户名</label><br>
+   <input type="text" id="loginUsername" name="loginUsername" required><br>
+   <label for="loginPassword">密码</label><br>
+   <input type="password" id="loginPassword" name="loginPassword" required ><br>
+   <input type="submit" value="登录">
+   </form>
+   <form id="signupForm" style="display:none;"><br>
+   <label for="signupUsername">用户名</label><br>
+   <input type="text" id="signupUsername" name="signupUsername" required><br>
+   <label for="signupEmail">邮箱</label><br>
+   <input type="email" id="signupEmail" name="signupEmail" required><br>
+   <label for="signupPassword">密码</label><br>
+   <input type="password" id="signupPassword" name="signupPassword" required><br>
+  <label for="confirmPassword">确认密码</label><br>
+   <input type="password" id="confirmPassword" name="confirmPassword" required><br>
+   <input type="submit" value="注册"><br>
+  </form>
+  <div class="toggle-link ">注册</div>
+  </div>    
+
+
+  <script>
+    function toggleForm(formType) {
+      if (formType === 'register') {
+        document.getElementById('register').style.display = 'block';
+        document.getElementById('login').style.display = 'none';
+      } else {
+        document.getElementById('register').style.display = 'none';
+        document.getElementById('login').style.display = 'block';
+      }
+    }
+  
+
+  let loginform = document.getElementById('loginForm');
+   let signupForm = document.getElementById('signupForm');
+   let togglelink = document.querySelector('.toggle-link');
+
+togglelink.addEventListener('click', () => {
+       if (loginform.style.display === 'none') {
+           loginform.style.display = 'block';
+           signupForm.style.display = 'none';
+           togglelink.textContent = '注册';
+       } else {
+           loginform.style.display = 'none';
+           signupForm.style.display = 'block';
+           togglelink.textContent = '登录';
+       }
+   });
+   
+   loginForm.addEventListener('submit', (e) => {
+       e.preventDefault();
+       let username = document.getElementById('loginUsername').value;
+       let password = document.getElementById('loginPassword').value;
+
+       if (!username ||!password) {
+           alert('所以字段都是必填的。');
+           return;
+       }
+       if (username === "zzr" && password === "981") {
+          window.location.href="file:///C:/Users/%E9%9B%B6%E6%98%9F/Desktop/%E7%AC%AC%E4%B8%89%E6%AC%A1%E4%BD%9C%E4%B8%9A/test3/Untitled-2.html"
+       } else {
+       if (username !=="wlf" ) {
+       alert("用户名不正确！");
+       } 
+       if(password!=="88") {
+       alert("密码不正确！");
+       }
+       return false;
+       }
+   });
+   signupForm.addEventListener('submit', (e) => {
+       e.preventDefault();
+       let username = document.getElementById('signupUsername').value;
+       let email = document.getElementById('signupEmail').value;
+       let password = document.getElementById('signupPassword').value;
+       let confirmPassword = document.getElementById('confirmPassword').value;
+
+
+       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+           alert('请输入正确的邮箱地址。');
+           return;
+       }
+
+       if (password!== confirmPassword) {
+           alert('两次输入的密码不一致。');
+           return;
+       } 
+       
+       if (!username ||!email ||!password ||!confirmPassword) {
+           alert('所有字段都是必填的。');
+           return;
+       }
+
+       alert('注册成功！');
+   });
+</script>
+</body>
+
+</html>                    
