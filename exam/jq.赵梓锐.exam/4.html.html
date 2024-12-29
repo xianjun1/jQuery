@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>学生课程管理系统</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table th,
+        table td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 200px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>学生课程管理系统</h1>
+
+    <!-- 添加课程 -->
+    <h2>添加课程</h2>
+    <form id="addCourseForm">
+        <label for="courseName">课程名称:</label>
+        <input type="text" id="courseName" required>
+        <label for="teacher">授课教师:</label>
+        <input type="text" id="teacher" required>
+        <label for="description">课程描述:</label>
+        <textarea id="description" required></textarea>
+        <button type="submit">提交</button>
+    </form>
+
+    <!--查询课程 -->
+    <h2>查询课程</h2>
+    <form id="queryCourseForm">
+        <label for="queryCourseName">课程名称:</label>
+        <input type="text" id="queryCourseName" required>
+        <button type="submit">查询</button>
+    </form>
+
+    <!--删除课程 -->
+    <h2>删除课程</h2>
+    <form id="deleteCourseForm">
+        <label for="deleteCourseName">课程名称:</label>
+        <input type="text" id="deleteCourseName" required>
+        <button type="submit">删除</button>
+    </form>
+
+    <!--显示所有课程 -->
+    <h2>所有课程</h2>
+    <table id="courseTable">
+        <thead>
+            <tr>
+                <th>课程名称</th>
+                <th>授课教师</th>
+                <th>课程描述</th>
+            </tr>
+        </thead>
+        <tbody id="courseTableBody">
+
+        </tbody>
+    </table>
+
+    <script>
+        function loadCourses() {
+            const courses = JSON.parse(localStorage.getItem('courses')) || [];
+            return courses;
+        }
+
+        function saveCourses(courses) {
+            localStorage.setItem('courses', JSON.stringify(courses));
+        }
+
+        function displayAllCourses() {
+            const courseTableBody = document.getElementById('courseTableBody');
+            courseTableBody.innerHTML = '';
+            const courses = loadCourses();
+            courses.forEach(course => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${course.courseName}</td><td>${course.teacher}</td><td>${course.description}</td>`;
+                courseTableBody.appendChild(row);
+            });
+        }
+
+        document.getElementById('addCourseForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const courseName = document.getElementById('courseName').value;
+            const teacher = document.getElementById('teacher').value;
+            const description = document.getElementById('description').value;
+            const courses = loadCourses();
+            courses.push({ courseName: courseName, teacher: teacher, description: description });
+            save courses(courses);
+            displayAllCourses();
+        });
+
+        document.getElementById('queryCourseForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const queryCourseName = document.getElementById('queryCourseName').value;
+            const courses = loadCourses();
+            const result = courses.filter(course => course.courseName === queryCourseName);
+            const courseTableBody = document.getElementById('courseTableBody');
+            courseTableBody.innerHTML = '';
+            result.forEach(course => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${course.courseName}</td><td>${course.teacher}</td><td>${course.description}</td>`;
+                courseTableBody.appendChild(row);
+            });
+        });
+
+        document.getElementById('deleteCourseForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const deleteCourseName = document.getElementById('deleteCourseName').value;
+            const courses = loadCourses();
+            const newCourses = courses.filter(course => course.courseName!== deleteCourseName);
+            save courses(newCourses);
+            displayAllCourses();
+        });
+
+        displayAllCourses();
+    </script>
+</body>
+
+</html>
